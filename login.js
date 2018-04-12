@@ -1,90 +1,64 @@
+var express = require("express");
+var app = express();
+var mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-var app=angular.module("loginApp",[]);
-app.controller('loginCtrl', function($scope,$http,$window){
-    // Q1) add two more pizza objects 
-    $http({
-  method: 'GET',
-  url: '/menu'
-}).then(function successCallback(response) {
-    $scope.users=response.data
-  }, function errorCallback(response) {
-    $scope.users=[]
-  });
-   
-   // $scope.phone=""
-   // $scope.email=""
-    $scope.msg="List of users"
-    // add two variables: cart, and total for web page cart.html
- 	$scope.cart=JSON.parse(localStorage.getItem("cart"))
-    if($scope.cart==null)
-    {
-        $scope.cart=[]
-        $scope.total=0.0
-        $scope.numItems=0
-    }
-    else
-    {
-        $scope.numItems=$scope.cart.reduce((total, item) => total + item.quantity,0)
-        //update totalPrice in Q5
-    }
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/ocs;
+var nameSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String
+});
+var User = mongoose.model("User", nameSchema);
 
+app.post("/sendLoginData", (req, res) => {
+    var myData = new User(req.body);
+    console.log(myData);
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("ocs");
+        dbo.createCollection("test", function(err, res){
+            if (err) throw err;
 
-//Q2: addToCart() function
-$scope.addToCart=function(item){
-    let index=$scope.cart.findIndex(x=>x.pizzaName==item.pizzaName)
-    if(index==-1)//-1 means item is not in the cart
-    {
-        item.quantity=1
-        //item has 4 properties: name, price, image, and quantity
-        $scope.cart.push(item)
-    }
-    else
-        $scope.cart[index].quantity+=1
-
-    $scope.numItems+=1
-    localStorage.setItem("cart", JSON.stringify($scope.cart))
-    //store cart locally, so every wweb page can access it locally
-}
-
-//Q3: removeFromCart() function
+            db.close();
+        });
+        dbo.collection("test").insertOne(myData, function(err, res) {
+            if (err) throw err;
+            console.log("Feedback sent to database");
+            db.close();
+        });
+    });
+});
+module.exports = router;
 
 
-//Q4: clearCart() function
-/*$scope.clearCart=function(){
-    //clear cart, numItems, and local storage
-    $scope.cart.splice(0, $scope.numItems)
-    $scope.numItems=0
-    $scope.total=0
-    localStorage.clear()
-}*/
-
-//Q5: calcTotalPrice() function
-//$scope.calcTotalPrice=function(){
-  //  $scope.cart.
-//}
 
 
-//checkout function: redirect to checkout.html	
-$scope.checkout=function(){
-    $window.location.href= '/checkout.html';
-}
 
 
-//placeOrder: send cart, phone and email to the server. 
-$scope.placeOrder=function(){
-    var checkoutData=[]
-    checkoutData.push($scope.cart)
-    checkoutData.push([{customerID:$scope.phone},{email:$scope.email}])
-    $http({
-        method: 'POST',
-        url: '/placeOrder',
-        data: checkoutData
-    }).then(function successCallback(response){
-        $scope.msg="Your order has been received! Thank you!"
-        $scope.clearCart()
-    }, function errorCallback(response){
-        $scope.msg="Sorry, server problem, try again!"
+function sendLoginData(logindata){
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("ocs");
+        dbo.collection("login").insertOne(feedback, function(err, res) {
+            if (err) throw err;
+            console.log("Login data sent to database");
+            db.close();
+        });
     });
 }
-   
-})
+
+/*function getLoginData(){
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("ocs");
+        dbo.collection("login").findOne({}, function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            db.close();
+        });
+    });
+}*/
