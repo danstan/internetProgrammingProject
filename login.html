@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<title>OCS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GA_TRACKING_ID');
+</script>
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Georgia", sans-serif;}
+    .w3-sidebar {
+        z-index: 3;
+        width: 250px;
+        top: 43px;
+        bottom: 0;
+        height: inherit;
+    }
+    body{
+        background-image: url(http://www.jasons-signs.com/images/logo.jpg);
+        background-position: 100% 5%;
+        background-size: 60%;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+    }
+    footer{
+        position:absolute;
+        bottom:0;
+        width:100%;
+        height:60px;
+    }
+    input[type=text]:focus {
+    border: 2px solid #555;
+    }
+    input[type=text]{
+        width: 90%;
+        resize: none;
+    }
+    input[type=email]:focus {
+    border: 2px solid #555;
+    }
+    input[type=email]{
+        width: 90%;
+        resize: none;
+    }
+    input[type=submit]:hover {opacity:1}
+    input[type=submit]{
+        background-color: brown;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    textarea:focus {
+    border: 2px solid #555;
+    }
+    textarea{
+        width: 90%;
+        resize: none;
+}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+    <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+        <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+        <a href="#" class="w3-bar-item w3-button w3-theme-l1">OCS: Login</a>
+        <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>-->
+    </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+        <i class="fa fa-remove"></i>
+    </a>
+    <h4 class="w3-bar-item"><b>Menu</b></h4>
+    <a class="w3-bar-item w3-button w3-hover-black" href="main">Home</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="livemap">Order Form</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="login">Login</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="donate">Contact Us</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+    <style type="text/css">
+        form{
+            margin: 50px;
+        }
+        h1{
+            margin-top: 50px;
+        }
+    </style>
+
+    <div class="container" ng-app="loginApp" ng-controller="loginCtrl" >
+  <h2>Create Login</h2>
+  <h2>{{msg}}</h2>
+   <form >
+    
+    <div class="form-group">
+
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="email" value="example@gmail.com"
+              >
+    </div>
+    <div class="form-group">
+      
+      <label for="password">Password:</label>
+      <input type="Phone" class="form-control" id="password" placeholder="Enter password" ng-model="password" value="opensesame"
+              >
+    </div>
+    
+    <button type="submit" ng-click="placeOrder()" class="btn btn-default" >Place Order</button>
+  </form>
+</div>
+
+    <footer id="myFooter">
+        <div class="w3-container w3-theme-l2 w3-padding-20">
+            <h3 style="text-align: center; font-size: 10pt;">Developed by students at GCSU</h3>
+        </div>
+    </footer>
+
+    <!-- END MAIN -->
+</div>
+
+<script>
+    // Get the Sidebar
+    var mySidebar = document.getElementById("mySidebar");
+
+    // Get the DIV with overlay effect
+    var overlayBg = document.getElementById("myOverlay");
+
+    // Toggle between showing and hiding the sidebar, and add overlay effect
+    function w3_open() {
+        if (mySidebar.style.display === 'block') {
+            mySidebar.style.display = 'none';
+            overlayBg.style.display = "none";
+        } else {
+            mySidebar.style.display = 'block';
+            overlayBg.style.display = "block";
+        }
+    }
+
+    // Close the sidebar with the close button
+    function w3_close() {
+        mySidebar.style.display = "none";
+        overlayBg.style.display = "none";
+    }
+</script>
+
+</body>
+</html>
